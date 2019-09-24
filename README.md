@@ -35,13 +35,7 @@ This results in the following changes
 
 ![changes](pictures/schematics-changes.png)
 
-Then in `<root>/services` I ran
-
-```
-yarn test
-```
-
-This results in the following error:
+Running `jest` results in the following error:
 
 ```
 $ jest
@@ -87,6 +81,171 @@ module.exports = {
 };
 ```
 
-Now when I run `yarn test` it works:
+Now when I run `jest` it works:
 
 ![jest pass default](pictures/jest-pass-default.png)
+
+## 4. My Issue
+
+I've now added the Angular `HttClient` to my `AppComponent`:
+
+```
+constructor(private http: HttpClient) {}
+```
+
+I've also added the `HttpClientModule` to `app.module.ts` and to the `imports` in the `app.component.spec.ts`.
+
+However when running `jest`, I get the following errors:
+
+```
+$ jest
+ FAIL  src/app/app.component.spec.ts
+  AppComponent
+    ✕ should create the app (449ms)
+    ✕ should have as title 'frontend' (10ms)
+    ✕ should render title (10ms)
+
+  ● AppComponent › should create the app
+
+    Can't resolve all parameters for AppComponent: (?).
+
+      at syntaxError (../../../packages/compiler/src/util.ts:100:17)
+      at CompileMetadataResolver._getDependenciesMetadata (../../../packages/compiler/src/metadata_resolver.ts:957:27)
+      at CompileMetadataResolver._getTypeMetadata (../../../packages/compiler/src/metadata_resolver.ts:836:20)
+      at CompileMetadataResolver.getNonNormalizedDirectiveMetadata (../../../packages/compiler/src/metadata_resolver.ts:377:18)
+      at CompileMetadataResolver.loadDirectiveMetadata (../../../packages/compiler/src/metadata_resolver.ts:224:11)
+      at ../../../packages/compiler/src/jit/compiler.ts:135:36
+          at Array.forEach (<anonymous>)
+      at ../../../packages/compiler/src/jit/compiler.ts:133:65
+          at Array.forEach (<anonymous>)
+      at JitCompiler._loadModules (../../../packages/compiler/src/jit/compiler.ts:130:71)
+      at JitCompiler._compileModuleAndAllComponents (../../../packages/compiler/src/jit/compiler.ts:115:32)
+      at JitCompiler.compileModuleAndAllComponentsAsync (../../../packages/compiler/src/jit/compiler.ts:69:33)
+      at CompilerImpl.compileModuleAndAllComponentsAsync (../../../packages/platform-browser-dynamic/src/compiler_factory.ts:69:27)
+      at TestingCompilerImpl.compileModuleAndAllComponentsAsync (../../../../packages/platform-browser-dynamic/testing/src/compiler_factory.ts:57:27)
+      at TestBedViewEngine.compileComponents (../../../../packages/core/testing/src/test_bed.ts:362:27)
+      at Function.TestBedViewEngine.compileComponents (../../../../packages/core/testing/src/test_bed.ts:160:66)
+      at testing_1.async (src/app/app.component.spec.ts:11:8)
+
+  ● AppComponent › should create the app
+
+    Can't resolve all parameters for AppComponent: (?).
+
+      at syntaxError (../../../packages/compiler/src/util.ts:100:17)
+      at CompileMetadataResolver._getDependenciesMetadata (../../../packages/compiler/src/metadata_resolver.ts:957:27)
+      at CompileMetadataResolver._getTypeMetadata (../../../packages/compiler/src/metadata_resolver.ts:836:20)
+      at CompileMetadataResolver.getNonNormalizedDirectiveMetadata (../../../packages/compiler/src/metadata_resolver.ts:377:18)
+      at CompileMetadataResolver.loadDirectiveMetadata (../../../packages/compiler/src/metadata_resolver.ts:224:11)
+      at ../../../packages/compiler/src/jit/compiler.ts:135:36
+          at Array.forEach (<anonymous>)
+      at ../../../packages/compiler/src/jit/compiler.ts:133:65
+          at Array.forEach (<anonymous>)
+      at JitCompiler._loadModules (../../../packages/compiler/src/jit/compiler.ts:130:71)
+      at JitCompiler._compileModuleAndAllComponents (../../../packages/compiler/src/jit/compiler.ts:115:32)
+      at JitCompiler.compileModuleAndAllComponentsSync (../../../packages/compiler/src/jit/compiler.ts:65:38)
+      at CompilerImpl.compileModuleAndAllComponentsSync (../../../packages/platform-browser-dynamic/src/compiler_factory.ts:61:35)
+      at TestingCompilerImpl.compileModuleAndAllComponentsSync (../../../../packages/platform-browser-dynamic/testing/src/compiler_factory.ts:52:27)
+      at TestBedViewEngine._initIfNeeded (../../../../packages/core/testing/src/test_bed.ts:376:28)
+      at TestBedViewEngine.createComponent (../../../../packages/core/testing/src/test_bed.ts:570:10)
+      at Function.TestBedViewEngine.createComponent (../../../../packages/core/testing/src/test_bed.ts:232:36)
+      at it (src/app/app.component.spec.ts:15:29)
+
+  ● AppComponent › should have as title 'frontend'
+
+    Can't resolve all parameters for AppComponent: (?).
+
+      at syntaxError (../../../packages/compiler/src/util.ts:100:17)
+      at CompileMetadataResolver._getDependenciesMetadata (../../../packages/compiler/src/metadata_resolver.ts:957:27)
+      at CompileMetadataResolver._getTypeMetadata (../../../packages/compiler/src/metadata_resolver.ts:836:20)
+      at CompileMetadataResolver.getNonNormalizedDirectiveMetadata (../../../packages/compiler/src/metadata_resolver.ts:377:18)
+      at CompileMetadataResolver.loadDirectiveMetadata (../../../packages/compiler/src/metadata_resolver.ts:224:11)
+      at ../../../packages/compiler/src/jit/compiler.ts:135:36
+          at Array.forEach (<anonymous>)
+      at ../../../packages/compiler/src/jit/compiler.ts:133:65
+          at Array.forEach (<anonymous>)
+      at JitCompiler._loadModules (../../../packages/compiler/src/jit/compiler.ts:130:71)
+      at JitCompiler._compileModuleAndAllComponents (../../../packages/compiler/src/jit/compiler.ts:115:32)
+      at JitCompiler.compileModuleAndAllComponentsAsync (../../../packages/compiler/src/jit/compiler.ts:69:33)
+      at CompilerImpl.compileModuleAndAllComponentsAsync (../../../packages/platform-browser-dynamic/src/compiler_factory.ts:69:27)
+      at TestingCompilerImpl.compileModuleAndAllComponentsAsync (../../../../packages/platform-browser-dynamic/testing/src/compiler_factory.ts:57:27)
+      at TestBedViewEngine.compileComponents (../../../../packages/core/testing/src/test_bed.ts:362:27)
+      at Function.TestBedViewEngine.compileComponents (../../../../packages/core/testing/src/test_bed.ts:160:66)
+      at testing_1.async (src/app/app.component.spec.ts:11:8)
+
+  ● AppComponent › should have as title 'frontend'
+
+    Can't resolve all parameters for AppComponent: (?).
+
+      at syntaxError (../../../packages/compiler/src/util.ts:100:17)
+      at CompileMetadataResolver._getDependenciesMetadata (../../../packages/compiler/src/metadata_resolver.ts:957:27)
+      at CompileMetadataResolver._getTypeMetadata (../../../packages/compiler/src/metadata_resolver.ts:836:20)
+      at CompileMetadataResolver.getNonNormalizedDirectiveMetadata (../../../packages/compiler/src/metadata_resolver.ts:377:18)
+      at CompileMetadataResolver.loadDirectiveMetadata (../../../packages/compiler/src/metadata_resolver.ts:224:11)
+      at ../../../packages/compiler/src/jit/compiler.ts:135:36
+          at Array.forEach (<anonymous>)
+      at ../../../packages/compiler/src/jit/compiler.ts:133:65
+          at Array.forEach (<anonymous>)
+      at JitCompiler._loadModules (../../../packages/compiler/src/jit/compiler.ts:130:71)
+      at JitCompiler._compileModuleAndAllComponents (../../../packages/compiler/src/jit/compiler.ts:115:32)
+      at JitCompiler.compileModuleAndAllComponentsSync (../../../packages/compiler/src/jit/compiler.ts:65:38)
+      at CompilerImpl.compileModuleAndAllComponentsSync (../../../packages/platform-browser-dynamic/src/compiler_factory.ts:61:35)
+      at TestingCompilerImpl.compileModuleAndAllComponentsSync (../../../../packages/platform-browser-dynamic/testing/src/compiler_factory.ts:52:27)
+      at TestBedViewEngine._initIfNeeded (../../../../packages/core/testing/src/test_bed.ts:376:28)
+      at TestBedViewEngine.createComponent (../../../../packages/core/testing/src/test_bed.ts:570:10)
+      at Function.TestBedViewEngine.createComponent (../../../../packages/core/testing/src/test_bed.ts:232:36)
+      at it (src/app/app.component.spec.ts:21:29)
+
+  ● AppComponent › should render title
+
+    Can't resolve all parameters for AppComponent: (?).
+
+      at syntaxError (../../../packages/compiler/src/util.ts:100:17)
+      at CompileMetadataResolver._getDependenciesMetadata (../../../packages/compiler/src/metadata_resolver.ts:957:27)
+      at CompileMetadataResolver._getTypeMetadata (../../../packages/compiler/src/metadata_resolver.ts:836:20)
+      at CompileMetadataResolver.getNonNormalizedDirectiveMetadata (../../../packages/compiler/src/metadata_resolver.ts:377:18)
+      at CompileMetadataResolver.loadDirectiveMetadata (../../../packages/compiler/src/metadata_resolver.ts:224:11)
+      at ../../../packages/compiler/src/jit/compiler.ts:135:36
+          at Array.forEach (<anonymous>)
+      at ../../../packages/compiler/src/jit/compiler.ts:133:65
+          at Array.forEach (<anonymous>)
+      at JitCompiler._loadModules (../../../packages/compiler/src/jit/compiler.ts:130:71)
+      at JitCompiler._compileModuleAndAllComponents (../../../packages/compiler/src/jit/compiler.ts:115:32)
+      at JitCompiler.compileModuleAndAllComponentsAsync (../../../packages/compiler/src/jit/compiler.ts:69:33)
+      at CompilerImpl.compileModuleAndAllComponentsAsync (../../../packages/platform-browser-dynamic/src/compiler_factory.ts:69:27)
+      at TestingCompilerImpl.compileModuleAndAllComponentsAsync (../../../../packages/platform-browser-dynamic/testing/src/compiler_factory.ts:57:27)
+      at TestBedViewEngine.compileComponents (../../../../packages/core/testing/src/test_bed.ts:362:27)
+      at Function.TestBedViewEngine.compileComponents (../../../../packages/core/testing/src/test_bed.ts:160:66)
+      at testing_1.async (src/app/app.component.spec.ts:11:8)
+
+  ● AppComponent › should render title
+
+    Can't resolve all parameters for AppComponent: (?).
+
+      at syntaxError (../../../packages/compiler/src/util.ts:100:17)
+      at CompileMetadataResolver._getDependenciesMetadata (../../../packages/compiler/src/metadata_resolver.ts:957:27)
+      at CompileMetadataResolver._getTypeMetadata (../../../packages/compiler/src/metadata_resolver.ts:836:20)
+      at CompileMetadataResolver.getNonNormalizedDirectiveMetadata (../../../packages/compiler/src/metadata_resolver.ts:377:18)
+      at CompileMetadataResolver.loadDirectiveMetadata (../../../packages/compiler/src/metadata_resolver.ts:224:11)
+      at ../../../packages/compiler/src/jit/compiler.ts:135:36
+          at Array.forEach (<anonymous>)
+      at ../../../packages/compiler/src/jit/compiler.ts:133:65
+          at Array.forEach (<anonymous>)
+      at JitCompiler._loadModules (../../../packages/compiler/src/jit/compiler.ts:130:71)
+      at JitCompiler._compileModuleAndAllComponents (../../../packages/compiler/src/jit/compiler.ts:115:32)
+      at JitCompiler.compileModuleAndAllComponentsSync (../../../packages/compiler/src/jit/compiler.ts:65:38)
+      at CompilerImpl.compileModuleAndAllComponentsSync (../../../packages/platform-browser-dynamic/src/compiler_factory.ts:61:35)
+      at TestingCompilerImpl.compileModuleAndAllComponentsSync (../../../../packages/platform-browser-dynamic/testing/src/compiler_factory.ts:52:27)
+      at TestBedViewEngine._initIfNeeded (../../../../packages/core/testing/src/test_bed.ts:376:28)
+      at TestBedViewEngine.createComponent (../../../../packages/core/testing/src/test_bed.ts:570:10)
+      at Function.TestBedViewEngine.createComponent (../../../../packages/core/testing/src/test_bed.ts:232:36)
+      at it (src/app/app.component.spec.ts:27:29)
+
+Test Suites: 1 failed, 1 total
+Tests:       3 failed, 3 total
+Snapshots:   0 total
+Time:        1.682s, estimated 2s
+Ran all test suites.
+error Command failed with exit code 1.
+```
+
+You can find the repository here:
