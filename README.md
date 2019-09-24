@@ -35,7 +35,7 @@ This results in the following changes
 
 ![changes](pictures/schematics-changes.png)
 
-The in `<root>/services` I ran
+Then in `<root>/services` I ran
 
 ```
 yarn test
@@ -68,4 +68,25 @@ Time:        1.267s
 Ran all test suites.
 ```
 
-Jest tries to find the `tsconfig.spec.json` in a wrong folder.
+## 3. Fixing Errors
+
+Jest tries to find the `tsconfig.spec.json` in a wrong folder. Fortunately I found [a fix](https://github.com/thymikee/jest-preset-angular/issues/286#issuecomment-519050423). I needed to change the `jest.config.js`
+
+```
+module.exports = {
+  preset: 'jest-preset-angular',
+  setupFilesAfterEnv: ['<rootDir>/src/setup-jest.ts'],
+  globals: {
+    'ts-jest': {
+      tsConfig: '<rootDir>/tsconfig.spec.json',
+      diagnostics: false,
+      stringifyContentPathRegex: '\\.html$',
+      astTransformers: [require.resolve('jest-preset-angular/InlineHtmlStripStylesTransformer')],
+    },
+  },
+};
+```
+
+Now when I run `yarn test` it works:
+
+![jest pass default](pictures/jest-pass-default.png)
